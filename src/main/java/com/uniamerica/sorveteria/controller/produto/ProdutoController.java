@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Endpoints do cardapio usados no caixa da sorveteria.
- * Sistema de uso interno: apenas funcionario e gerente acessam (sem tela para cliente).
- */
 @RestController
 @RequestMapping("/api/produtos")
 @RequiredArgsConstructor
@@ -23,80 +19,59 @@ public class ProdutoController {
 
     private final ProdutoService produtoService;
 
-    // POST localhost:8080/api/produtos
     @PostMapping
-    public ResponseEntity<ProdutoResponse> salvar(@RequestBody ProdutoRequest produtoRequest) {
-        Produto produto = this.produtoService.salvar(produtoRequest);
-        return new ResponseEntity<>(ProdutoResponse.de(produto), HttpStatus.CREATED);
+    public ResponseEntity<ProdutoResponse> cadastrar(@RequestBody ProdutoRequest request) {
+        Produto salvo = produtoService.salvar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ProdutoResponse.fromEntity(salvo));
     }
 
-    // GET localhost:8080/api/produtos
     @GetMapping
-    public ResponseEntity<List<ProdutoResponse>> listar() {
-        List<ProdutoResponse> produtos = this.produtoService.listar()
-                .stream()
-                .map(ProdutoResponse::de)
+    public ResponseEntity<List<ProdutoResponse>> listarTodos() {
+        List<ProdutoResponse> lista = produtoService.listar().stream()
+                .map(ProdutoResponse::fromEntity)
                 .toList();
-        return new ResponseEntity<>(produtos, HttpStatus.OK);
+        return ResponseEntity.ok(lista);
     }
 
-    // GET localhost:8080/api/produtos/3
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponse> buscarPorId(@PathVariable Long id) {
-        Produto produto = this.produtoService.buscarPorId(id);
-        return new ResponseEntity<>(ProdutoResponse.de(produto), HttpStatus.OK);
+        Produto produto = produtoService.buscarPorId(id);
+        return ResponseEntity.ok(ProdutoResponse.fromEntity(produto));
     }
 
-    // GET localhost:8080/api/produtos/buscar?categoria=SORVETE
-    // GET localhost:8080/api/produtos/buscar?nome=morango
-    @GetMapping("/buscar")
+    @GetMapping("/busca")
     public ResponseEntity<List<ProdutoResponse>> buscar(
             @RequestParam(required = false) Categoria categoria,
-            @RequestParam(required = false) String nome
-    ) {
-        List<ProdutoResponse> produtos = this.produtoService.buscar(categoria, nome)
-                .stream()
-                .map(ProdutoResponse::de)
+            @RequestParam(required = false) String nome) {
+        List<ProdutoResponse> lista = produtoService.buscar(categoria, nome).stream()
+                .map(ProdutoResponse::fromEntity)
                 .toList();
-        return new ResponseEntity<>(produtos, HttpStatus.OK);
+        return ResponseEntity.ok(lista);
     }
 
-    // GET localhost:8080/api/produtos/disponiveis
-    // usado na tela do caixa: mostra so o que pode ser vendido agora
-    @GetMapping("/disponiveis")
+    @GetMapping("/venda")
     public ResponseEntity<List<ProdutoResponse>> listarDisponiveis() {
-        List<ProdutoResponse> produtos = this.produtoService.listarDisponiveisParaVenda()
-                .stream()
-                .map(ProdutoResponse::de)
+        List<ProdutoResponse> lista = produtoService.listarDisponiveisParaVenda().stream()
+                .map(ProdutoResponse::fromEntity)
                 .toList();
-        return new ResponseEntity<>(produtos, HttpStatus.OK);
+        return ResponseEntity.ok(lista);
     }
 
-    // PUT localhost:8080/api/produtos/3
     @PutMapping("/{id}")
-    public ResponseEntity<ProdutoResponse> atualizar(
-            @PathVariable Long id,
-            @RequestBody ProdutoRequest produtoRequest
-    ) {
-        Produto produto = this.produtoService.atualizar(id, produtoRequest);
-        return new ResponseEntity<>(ProdutoResponse.de(produto), HttpStatus.OK);
+    public ResponseEntity<ProdutoResponse> atualizar(@PathVariable Long id, @RequestBody ProdutoRequest request) {
+        Produto atualizado = produtoService.atualizar(id, request);
+        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));
     }
 
-    // PATCH localhost:8080/api/produtos/3
-    // usado, por exemplo, para o gerente marcar um sabor como indisponivel
     @PatchMapping("/{id}")
-    public ResponseEntity<ProdutoResponse> atualizarParcial(
-            @PathVariable Long id,
-            @RequestBody ProdutoRequest produtoRequest
-    ) {
-        Produto produto = this.produtoService.atualizarParcial(id, produtoRequest);
-        return new ResponseEntity<>(ProdutoResponse.de(produto), HttpStatus.OK);
+    public ResponseEntity<ProdutoResponse> atualizarParcial(@PathVariable Long id, @RequestBody ProdutoRequest request) {
+        Produto atualizado = produtoService.atualizarParcial(id, request);
+        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));
     }
 
-    // DELETE localhost:8080/api/produtos/3
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
-        this.produtoService.deletarPorId(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        produtoService.deletarPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }

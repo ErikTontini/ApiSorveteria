@@ -19,12 +19,11 @@ public class ProdutoService {
 
     public Produto salvar(ProdutoRequest produtoRequest) {
         Produto produto = new Produto();
-        produto.setNome(produtoRequest.getNome());
-        produto.setCategoria(produtoRequest.getCategoria());
-        produto.setPreco(produtoRequest.getPreco());
-        produto.setEstoque(produtoRequest.getEstoque());
-        // produto novo entra disponivel no caixa, a menos que informado o contrario
-        produto.setDisponivel(produtoRequest.getDisponivel() != null ? produtoRequest.getDisponivel() : true);
+        produto.setNome(produtoRequest.nome());
+        produto.setCategoria(produtoRequest.categoria());
+        produto.setPreco(produtoRequest.preco());
+        produto.setEstoque(produtoRequest.estoque());
+        produto.setDisponivel(produtoRequest.disponivel() != null ? produtoRequest.disponivel() : true);
 
         return this.produtoRepository.save(produto);
     }
@@ -40,7 +39,6 @@ public class ProdutoService {
         return this.produtoRepository.findAll();
     }
 
-    // usado pelo endpoint de busca com requestParam (categoria e/ou nome)
     public List<Produto> buscar(Categoria categoria, String nome) {
         if (categoria != null) {
             return this.produtoRepository.findByCategoria(categoria);
@@ -51,7 +49,6 @@ public class ProdutoService {
         return this.listar();
     }
 
-    // usado no caixa: so os itens que podem ser vendidos agora
     public List<Produto> listarDisponiveisParaVenda() {
         return this.produtoRepository.findByDisponivelTrue();
     }
@@ -59,11 +56,11 @@ public class ProdutoService {
     public Produto atualizar(Long id, ProdutoRequest produtoRequest) {
         Produto produto = this.buscarPorId(id);
 
-        produto.setNome(produtoRequest.getNome());
-        produto.setCategoria(produtoRequest.getCategoria());
-        produto.setPreco(produtoRequest.getPreco());
-        produto.setEstoque(produtoRequest.getEstoque());
-        produto.setDisponivel(produtoRequest.getDisponivel());
+        produto.setNome(produtoRequest.nome());
+        produto.setCategoria(produtoRequest.categoria());
+        produto.setPreco(produtoRequest.preco());
+        produto.setEstoque(produtoRequest.estoque());
+        produto.setDisponivel(produtoRequest.disponivel());
 
         return this.produtoRepository.save(produto);
     }
@@ -71,11 +68,11 @@ public class ProdutoService {
     public Produto atualizarParcial(Long id, ProdutoRequest produtoRequest) {
         Produto produto = this.buscarPorId(id);
 
-        if (produtoRequest.getNome() != null) produto.setNome(produtoRequest.getNome());
-        if (produtoRequest.getCategoria() != null) produto.setCategoria(produtoRequest.getCategoria());
-        if (produtoRequest.getPreco() != null) produto.setPreco(produtoRequest.getPreco());
-        if (produtoRequest.getEstoque() != null) produto.setEstoque(produtoRequest.getEstoque());
-        if (produtoRequest.getDisponivel() != null) produto.setDisponivel(produtoRequest.getDisponivel());
+        if (produtoRequest.nome() != null) produto.setNome(produtoRequest.nome());
+        if (produtoRequest.categoria() != null) produto.setCategoria(produtoRequest.categoria());
+        if (produtoRequest.preco() != null) produto.setPreco(produtoRequest.preco());
+        if (produtoRequest.estoque() != null) produto.setEstoque(produtoRequest.estoque());
+        if (produtoRequest.disponivel() != null) produto.setDisponivel(produtoRequest.disponivel());
 
         return this.produtoRepository.save(produto);
     }

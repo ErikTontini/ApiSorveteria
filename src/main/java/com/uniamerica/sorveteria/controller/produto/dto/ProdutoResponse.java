@@ -11,14 +11,14 @@ public record ProdutoResponse(
         Integer estoque,
         Boolean disponivel
 ) {
-    public static ProdutoResponse de(Produto produto) {
+    public static ProdutoResponse fromEntity(Produto p) {
         return new ProdutoResponse(
-                produto.getId(),
-                produto.getNome(),
-                produto.getCategoria(),
-                produto.getPreco(),
-                produto.getEstoque(),
-                produto.getDisponivel()
+                p.getId(),
+                p.getNome(),
+                p.getCategoria(),
+                p.getPreco(),
+                p.getEstoque(),
+                p.getDisponivel()
         );
     }
 }

@@ -8,12 +8,9 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    // GET localhost:8080/api/produtos/buscar?categoria=SORVETE
     List<Produto> findByCategoria(Categoria categoria);
 
-    // GET localhost:8080/api/produtos/buscar?nome=morango
     List<Produto> findByNomeContainingIgnoreCase(String nome);
 
-    // usado no caixa: lista so o que pode ser vendido agora
     List<Produto> findByDisponivelTrue();
 }
