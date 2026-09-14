@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row topo">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="card centralizar">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Autenticação-Sorveteria</h5>
+                    <mdb-form-control>
+                        <input mdbInput type="text" id="usuario" class="form-control mb-3" [(ngModel)]='usuario'/>
+                        <label mdbLabel class="form-label" for="usuario">usuario</label>
+                    </mdb-form-control>
+                    <mdb-form-control>
+                        <input mdbInput type="password" id="senha" class="form-control mb-3" [(ngModel)]='senha'/>
+                        <label mdbLabel class="form-label" for="senha">senha</label>
+                    </mdb-form-control>
+                    <button type="button" class="btn btn-primary" (click)="logar()" >Login</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
+
+

@@ -1,0 +1,48 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Cadastrar novo produto</h3>
+                    <br>
+
+                     <mdb-form-control>
+                        <input mdbInput type="text" id="nome" class="form-control mb-3" [(ngModel)]='produto.nome'/>
+                        <label mdbLabel class="form-label" for="nome">Nome</label>
+                    </mdb-form-control>
+
+                    <mdb-form-control>
+                        <select id="categoria" class="form-select mb-3" [(ngModel)]='produto.categoria'>
+                            <option value="SORVETE">SORVETE</option>
+                            <option value="CASQUINHA">CASQUINHA</option>
+                            <option value="ACAI">ACAI</option>
+                            <option value="MILK_SHAKE">MILK_SHAKE</option>
+                            <option value="ADICIONAL">ADICIONAL</option>
+                        </select>
+                        <label mdbLabel class="form-label" for="categoria">Categoria</label>
+                    </mdb-form-control>
+
+                    <mdb-form-control>
+                        <input mdbInput type="number" id="preco" class="form-control mb-3" [(ngModel)]='produto.preco'/>
+                        <label mdbLabel class="form-label" for="preco">Preço</label>
+                    </mdb-form-control>
+
+                    <mdb-form-control>
+                        <input mdbInput type="number" id="estoque" class="form-control mb-3" [(ngModel)]='produto.estoque'/>
+                        <label mdbLabel class="form-label" for="estoque">Estoque</label>
+                    </mdb-form-control>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="disponivel" [(ngModel)]='produto.disponivel'/>
+                        <label class="form-check-label" for="disponivel">Disponível</label>
+                    </div>
+
+                    <br>
+
+                     <button type="button" class="btn btn-primary" (click)="salvar()" >Salvar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
