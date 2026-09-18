@@ -1,6 +1,15 @@
-package com.uniamerica.sorveteria.controller.produto.venda.dto;
+package com.uniamerica.sorveteria.controller.venda.dto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
 
 public record VendaRequest(
-        Long produtoId,
-        Integer quantidade
-) {}
+
+        @NotEmpty(message = "A venda deve possuir pelo menos um item")
+        @Valid
+        List<ItemVendaRequest> itens
+
+) {
+}

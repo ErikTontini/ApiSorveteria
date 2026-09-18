@@ -1,31 +1,35 @@
-package com.uniamerica.sorveteria.controller.produto.venda.dto;
-
+package com.uniamerica.sorveteria.controller.venda.dto;
 
 import com.uniamerica.sorveteria.entity.StatusVenda;
 import com.uniamerica.sorveteria.entity.Venda;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record VendaResponse(
+
         Long id,
-        Long produtoId,
-        String produtoNome,
-        Integer quantidade,
-        Double valorUnitario,
+        List<ItemVendaResponse> itens,
         Double valorTotal,
         LocalDateTime dataHora,
         StatusVenda status
+
 ) {
-    public static VendaResponse fromEntity(Venda v) {
+
+    public static VendaResponse fromEntity(Venda venda) {
+
+        List<ItemVendaResponse> itens =
+                venda.getItens()
+                        .stream()
+                        .map(ItemVendaResponse::fromEntity)
+                        .toList();
+
         return new VendaResponse(
-                v.getId(),
-                v.getProduto().getId(),
-                v.getProduto().getNome(),
-                v.getQuantidade(),
-                v.getValorUnitario(),
-                v.getValorTotal(),
-                v.getDataHora(),
-                v.getStatus()
+                venda.getId(),
+                itens,
+                venda.getValorTotal(),
+                venda.getDataHora(),
+                venda.getStatus()
         );
     }
 }

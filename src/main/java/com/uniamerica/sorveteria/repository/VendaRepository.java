@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface VendaRepository extends JpaRepository<Venda, Long> {
 
-    List<Venda> findByProduto(Produto produto);
+    List<Venda> findDistinctByItens_Produto(Produto produto);
 
     List<Venda> findByStatus(StatusVenda status);
 }

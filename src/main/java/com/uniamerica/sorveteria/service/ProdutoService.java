@@ -5,12 +5,13 @@ import com.uniamerica.sorveteria.entity.Categoria;
 import com.uniamerica.sorveteria.entity.Produto;
 import com.uniamerica.sorveteria.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProdutoService {
@@ -18,21 +19,21 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
 
     public Produto salvar(ProdutoRequest produtoRequest) {
+      log.info("Iniciando cadastro de produto.");
         Produto produto = new Produto();
         produto.setNome(produtoRequest.nome());
         produto.setCategoria(produtoRequest.categoria());
         produto.setPreco(produtoRequest.preco());
         produto.setEstoque(produtoRequest.estoque());
         produto.setDisponivel(produtoRequest.disponivel() != null ? produtoRequest.disponivel() : true);
-
+      log.info("Sucesso ao cadastrar produto.");
         return this.produtoRepository.save(produto);
+
     }
 
     public Produto buscarPorId(Long id) {
-        return this.produtoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Produto não encontrado com id " + id));
+        return this.produtoRepository.findById(id).orElseThrow(() ->
+                  new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado com id " + id));
     }
 
     public List<Produto> listar() {
@@ -55,7 +56,6 @@ public class ProdutoService {
 
     public Produto atualizar(Long id, ProdutoRequest produtoRequest) {
         Produto produto = this.buscarPorId(id);
-
         produto.setNome(produtoRequest.nome());
         produto.setCategoria(produtoRequest.categoria());
         produto.setPreco(produtoRequest.preco());
