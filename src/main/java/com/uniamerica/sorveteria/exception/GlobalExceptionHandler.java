@@ -1,6 +1,8 @@
 package com.uniamerica.sorveteria.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +17,6 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  // Trata os ResponseStatusException lançados pelos Services
   @ResponseBody
   @ExceptionHandler(ResponseStatusException.class)
   public ResponseEntity<Map<String, Object>> tratarResponseStatusException(
@@ -32,7 +33,6 @@ public class GlobalExceptionHandler {
   }
 
 
-  // Trata erros do Bean Validation
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, Object>> tratarValidacao(
@@ -58,5 +58,20 @@ public class GlobalExceptionHandler {
     resposta.put("campos", campos);
 
     return ResponseEntity.badRequest().body(resposta);
+  }
+
+  @ResponseBody
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity<Map<String, Object>> tratarErroBanco(
+    DataIntegrityViolationException exception) {
+
+    log.error("Erro de integridade no banco de dados", exception);
+
+    Map<String, Object> erro = new LinkedHashMap<>();
+
+    erro.put("status", HttpStatus.CONFLICT.value());
+    erro.put("mensagem", "Nao foi possível realizar a operação devido a uma restrição do banco de dados");
+
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
   }
 }

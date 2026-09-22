@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 public record UsuarioRequest(
 
-  @NotBlank(message = "O nome é obrigatório")
+  @NotBlank(message = "O nome e obrigatório")
   String nome,
 
   @NotBlank(message = "O login é obrigatório")

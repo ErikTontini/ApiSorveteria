@@ -44,14 +44,13 @@ public class UsuarioService {
     log.info("Buscando endereço do usuário {}", usuarioId);
 
     Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() ->
-      new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado com id " + usuarioId));
+      new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado com id " + usuarioId));
 
     if (usuario.getCep() == null || usuario.getCep().isBlank()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não possui CEP cadastrado");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario não possui CEP cadastrado");
     }
 
-    ViaCepResponse endereco =
-      viaCepClient.buscarCep(usuario.getCep());
+    ViaCepResponse endereco = viaCepClient.buscarCep(usuario.getCep());
 
     log.info("Endereço encontrado para o usuário {}", usuarioId);
 

@@ -31,6 +31,7 @@ public class VendaService {
     // ==========================================
     // REGISTRAR VENDA
     // ==========================================
+
     @Transactional
     public Venda registrar(VendaRequest vendaRequest) {
 
@@ -82,7 +83,7 @@ public class VendaService {
 
     public Venda buscarPorId(Long id) {
         return vendaRepository.findById(id).orElseThrow(() ->
-        new ResponseStatusException(HttpStatus.NOT_FOUND, "Venda não encontrada com id " + id));
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "Venda nao encontrada com id " + id));
     }
 
     public List<Venda> listar() {
@@ -93,7 +94,7 @@ public class VendaService {
 
         if (produtoId != null) {
             Produto produto = produtoRepository.findById(produtoId).orElseThrow(() ->
-              new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado com id " + produtoId));
+              new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto nao encontrado com id " + produtoId));
 
             List<Venda> vendas = vendaRepository.findDistinctByItens_Produto(produto);
 
