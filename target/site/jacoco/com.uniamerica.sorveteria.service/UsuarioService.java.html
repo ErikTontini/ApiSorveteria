@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.service</a> &gt; <span class="el_source">UsuarioService.java</span></div><h1>UsuarioService.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.service;
+
+import com.uniamerica.sorveteria.client.viacep.ViaCepClient;
+import com.uniamerica.sorveteria.client.viacep.ViaCepResponse;
+import com.uniamerica.sorveteria.controller.usuario.dto.UsuarioRequest;
+import com.uniamerica.sorveteria.entity.Usuario;
+import com.uniamerica.sorveteria.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+<span class="fc" id="L13">@Slf4j</span>
+@Service
+@RequiredArgsConstructor
+public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+   private final ViaCepClient viaCepClient;
+
+    public Usuario cadastrar(UsuarioRequest request) {
+<span class="nc" id="L22">      log.info(&quot;Inciando Cadastro de usuario&quot;);</span>
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (usuarioRepository.existsByLogin(request.login())) {</span>
+<span class="nc" id="L25">          log.warn(&quot;Erro ao cadastrar usuario.&quot;);</span>
+<span class="nc" id="L26">            throw new ResponseStatusException(HttpStatus.CONFLICT, &quot;Já existe um usuario com esse login&quot;);</span>
+        }
+
+<span class="nc" id="L29">        Usuario usuario = new Usuario();</span>
+<span class="nc" id="L30">        usuario.setNome(request.nome());</span>
+<span class="nc" id="L31">        usuario.setLogin(request.login());</span>
+<span class="nc" id="L32">        usuario.setSenha(request.senha());</span>
+<span class="nc" id="L33">        usuario.setCargo(request.cargo());</span>
+<span class="nc" id="L34">        usuario.setCep(request.cep());</span>
+<span class="nc" id="L35">        usuario.setAtivo(true);</span>
+
+<span class="nc" id="L37">      log.info(&quot;Usuario {} Cadastrado com sucesso&quot;, usuario.getNome());</span>
+
+<span class="nc" id="L39">        return usuarioRepository.save(usuario);</span>
+    }
+
+  public ViaCepResponse buscarEndereco(Long usuarioId) {
+
+<span class="nc" id="L44">    log.info(&quot;Buscando endereço do usuário {}&quot;, usuarioId);</span>
+
+<span class="nc" id="L46">    Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -&gt;</span>
+<span class="nc" id="L47">      new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Usuario não encontrado com id &quot; + usuarioId));</span>
+
+<span class="nc bnc" id="L49" title="All 4 branches missed.">    if (usuario.getCep() == null || usuario.getCep().isBlank()) {</span>
+<span class="nc" id="L50">      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Usuario não possui CEP cadastrado&quot;);</span>
+    }
+
+<span class="nc" id="L53">    ViaCepResponse endereco = viaCepClient.buscarCep(usuario.getCep());</span>
+
+<span class="nc" id="L55">    log.info(&quot;Endereço encontrado para o usuário {}&quot;, usuarioId);</span>
+
+<span class="nc" id="L57">    return endereco;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

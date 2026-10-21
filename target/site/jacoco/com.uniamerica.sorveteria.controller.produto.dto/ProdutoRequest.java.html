@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProdutoRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.controller.produto.dto</a> &gt; <span class="el_source">ProdutoRequest.java</span></div><h1>ProdutoRequest.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.controller.produto.dto;
+
+import com.uniamerica.sorveteria.entity.Categoria;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
+
+<span class="fc" id="L10">public record ProdutoRequest(</span>
+
+  @NotBlank(message = &quot;O nome é obrigatório&quot;)
+  String nome,
+
+  @NotNull(message = &quot;A categoria é obrigatória&quot;)
+  Categoria categoria,
+
+  @NotNull(message = &quot;O preço é obrigatório&quot;)
+  @Positive(message = &quot;O preço deve ser maior que zero&quot;)
+  Double preco,
+
+  @NotNull(message = &quot;O estoque e obrigatorio&quot;)
+  @PositiveOrZero(message = &quot;O estoque nao pode ser negativo&quot;)
+  Integer estoque,
+
+  @NotNull(message = &quot;A disponibilidade e obrigatoria&quot;)
+  Boolean disponivel
+) {
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

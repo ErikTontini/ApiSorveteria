@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.controller.usuario</a> &gt; <span class="el_source">UsuarioController.java</span></div><h1>UsuarioController.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.controller.usuario;
+
+import com.uniamerica.sorveteria.client.viacep.ViaCepResponse;
+import com.uniamerica.sorveteria.controller.usuario.dto.UsuarioRequest;
+import com.uniamerica.sorveteria.controller.usuario.dto.UsuarioResponse;
+import com.uniamerica.sorveteria.entity.Usuario;
+import com.uniamerica.sorveteria.service.UsuarioService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+<span class="fc" id="L13">@Slf4j</span>
+@RestController
+@RequestMapping(&quot;/api/usuarios&quot;)
+@RequiredArgsConstructor
+public class UsuarioController {
+
+    private final UsuarioService usuarioService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public UsuarioResponse cadastrar(@Valid @RequestBody UsuarioRequest request) {
+<span class="nc" id="L24">        Usuario usuario = usuarioService.cadastrar(request);</span>
+<span class="nc" id="L25">        log.info(&quot;Usuario {} cadastrado com sucesso&quot;, usuario.getNome());</span>
+<span class="nc" id="L26">        return UsuarioResponse.fromEntity(usuario);</span>
+    }
+
+  @GetMapping(&quot;/{id}/endereco&quot;)
+  public ViaCepResponse buscarEndereco(@PathVariable Long id) {
+
+<span class="nc" id="L32">    log.info(&quot;Recebida requisição para consultar endereço do usuário {}&quot;, id);</span>
+
+<span class="nc" id="L34">    return usuarioService.buscarEndereco(id);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

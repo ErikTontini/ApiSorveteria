@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VendaResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.controller.venda.dto</a> &gt; <span class="el_source">VendaResponse.java</span></div><h1>VendaResponse.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.controller.venda.dto;
+
+import com.uniamerica.sorveteria.entity.StatusVenda;
+import com.uniamerica.sorveteria.entity.Venda;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+<span class="nc" id="L9">public record VendaResponse(</span>
+
+        Long id,
+        List&lt;ItemVendaResponse&gt; itens,
+        Double valorTotal,
+        LocalDateTime dataHora,
+        StatusVenda status
+
+) {
+
+    public static VendaResponse fromEntity(Venda venda) {
+
+<span class="nc" id="L21">        List&lt;ItemVendaResponse&gt; itens =</span>
+<span class="nc" id="L22">                venda.getItens()</span>
+<span class="nc" id="L23">                        .stream()</span>
+<span class="nc" id="L24">                        .map(ItemVendaResponse::fromEntity)</span>
+<span class="nc" id="L25">                        .toList();</span>
+
+<span class="nc" id="L27">        return new VendaResponse(</span>
+<span class="nc" id="L28">                venda.getId(),</span>
+                itens,
+<span class="nc" id="L30">                venda.getValorTotal(),</span>
+<span class="nc" id="L31">                venda.getDataHora(),</span>
+<span class="nc" id="L32">                venda.getStatus()</span>
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

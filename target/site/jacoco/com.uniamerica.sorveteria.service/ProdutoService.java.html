@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProdutoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.service</a> &gt; <span class="el_source">ProdutoService.java</span></div><h1>ProdutoService.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.service;
+
+import com.uniamerica.sorveteria.controller.produto.dto.ProdutoRequest;
+import com.uniamerica.sorveteria.entity.Categoria;
+import com.uniamerica.sorveteria.entity.Produto;
+import com.uniamerica.sorveteria.repository.ProdutoRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+<span class="fc" id="L14">@Slf4j</span>
+@Service
+@RequiredArgsConstructor
+public class ProdutoService {
+
+    private final ProdutoRepository produtoRepository;
+
+    public Produto salvar(ProdutoRequest produtoRequest) {
+<span class="fc" id="L22">      log.info(&quot;Iniciando cadastro de produto.&quot;);</span>
+<span class="fc" id="L23">        Produto produto = new Produto();</span>
+<span class="fc" id="L24">        produto.setNome(produtoRequest.nome());</span>
+<span class="fc" id="L25">        produto.setCategoria(produtoRequest.categoria());</span>
+<span class="fc" id="L26">        produto.setPreco(produtoRequest.preco());</span>
+<span class="fc" id="L27">        produto.setEstoque(produtoRequest.estoque());</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        produto.setDisponivel(produtoRequest.disponivel() != null ? produtoRequest.disponivel() : true);</span>
+<span class="fc" id="L29">      log.info(&quot;Sucesso ao cadastrar produto.&quot;);</span>
+<span class="fc" id="L30">        return this.produtoRepository.save(produto);</span>
+
+    }
+
+    public Produto buscarPorId(Long id) {
+<span class="fc" id="L35">        return this.produtoRepository.findById(id).orElseThrow(() -&gt;</span>
+<span class="fc" id="L36">                  new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Produto não encontrado com id &quot; + id));</span>
+    }
+
+    public List&lt;Produto&gt; listar() {
+<span class="fc" id="L40">        return this.produtoRepository.findAll();</span>
+    }
+
+    public List&lt;Produto&gt; buscar(Categoria categoria, String nome) {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (categoria != null) {</span>
+<span class="fc" id="L45">            return this.produtoRepository.findByCategoria(categoria);</span>
+        }
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">        if (nome != null &amp;&amp; !nome.isBlank()) {</span>
+<span class="fc" id="L48">            return this.produtoRepository.findByNomeContainingIgnoreCase(nome);</span>
+        }
+<span class="fc" id="L50">        return this.listar();</span>
+    }
+
+    public List&lt;Produto&gt; listarDisponiveisParaVenda() {
+<span class="fc" id="L54">        return this.produtoRepository.findByDisponivelTrue();</span>
+    }
+
+    public Produto atualizar(Long id, ProdutoRequest produtoRequest) {
+<span class="fc" id="L58">        Produto produto = this.buscarPorId(id);</span>
+<span class="fc" id="L59">        produto.setNome(produtoRequest.nome());</span>
+<span class="fc" id="L60">        produto.setCategoria(produtoRequest.categoria());</span>
+<span class="fc" id="L61">        produto.setPreco(produtoRequest.preco());</span>
+<span class="fc" id="L62">        produto.setEstoque(produtoRequest.estoque());</span>
+<span class="fc" id="L63">        produto.setDisponivel(produtoRequest.disponivel());</span>
+
+<span class="fc" id="L65">        return this.produtoRepository.save(produto);</span>
+    }
+
+    public Produto atualizarParcial(Long id, ProdutoRequest produtoRequest) {
+<span class="fc" id="L69">        Produto produto = this.buscarPorId(id);</span>
+
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (produtoRequest.nome() != null) produto.setNome(produtoRequest.nome());</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (produtoRequest.categoria() != null) produto.setCategoria(produtoRequest.categoria());</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (produtoRequest.preco() != null) produto.setPreco(produtoRequest.preco());</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (produtoRequest.estoque() != null) produto.setEstoque(produtoRequest.estoque());</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (produtoRequest.disponivel() != null) produto.setDisponivel(produtoRequest.disponivel());</span>
+
+<span class="fc" id="L77">        return this.produtoRepository.save(produto);</span>
+    }
+
+    public void deletarPorId(Long id) {
+<span class="fc" id="L81">        Produto produto = this.buscarPorId(id);</span>
+<span class="fc" id="L82">        this.produtoRepository.delete(produto);</span>
+<span class="fc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

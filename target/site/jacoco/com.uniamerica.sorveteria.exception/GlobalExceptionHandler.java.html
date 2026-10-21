@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.exception</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.exception;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+<span class="fc" id="L16">@Slf4j</span>
+@ControllerAdvice
+<span class="fc" id="L18">public class GlobalExceptionHandler {</span>
+
+  @ResponseBody
+  @ExceptionHandler(ResponseStatusException.class)
+  public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; tratarResponseStatusException(
+    ResponseStatusException exception) {
+
+<span class="nc" id="L25">    log.error(&quot;Erro na requisição: {}&quot;, exception.getReason());</span>
+
+<span class="nc" id="L27">    Map&lt;String, Object&gt; erro = new LinkedHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L29">    erro.put(&quot;status&quot;, exception.getStatusCode().value());</span>
+<span class="nc" id="L30">    erro.put(&quot;mensagem&quot;, exception.getReason());</span>
+
+<span class="nc" id="L32">    return ResponseEntity.status(exception.getStatusCode()).body(erro);</span>
+  }
+
+
+  @ResponseBody
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; tratarValidacao(
+    MethodArgumentNotValidException exception) {
+
+<span class="nc" id="L41">    log.warn(&quot;Erro de validação na requisição&quot;);</span>
+
+<span class="nc" id="L43">    Map&lt;String, String&gt; campos = new LinkedHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L45">    exception.getBindingResult()</span>
+<span class="nc" id="L46">      .getFieldErrors()</span>
+<span class="nc" id="L47">      .forEach(erro -&gt;</span>
+<span class="nc" id="L48">        campos.put(</span>
+<span class="nc" id="L49">          erro.getField(),</span>
+<span class="nc" id="L50">          erro.getDefaultMessage()</span>
+        )
+      );
+
+<span class="nc" id="L54">    Map&lt;String, Object&gt; resposta = new LinkedHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L56">    resposta.put(&quot;status&quot;, 400);</span>
+<span class="nc" id="L57">    resposta.put(&quot;mensagem&quot;, &quot;Erro de validação&quot;);</span>
+<span class="nc" id="L58">    resposta.put(&quot;campos&quot;, campos);</span>
+
+<span class="nc" id="L60">    return ResponseEntity.badRequest().body(resposta);</span>
+  }
+
+  @ResponseBody
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; tratarErroBanco(
+    DataIntegrityViolationException exception) {
+
+<span class="nc" id="L68">    log.error(&quot;Erro de integridade no banco de dados&quot;, exception);</span>
+
+<span class="nc" id="L70">    Map&lt;String, Object&gt; erro = new LinkedHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L72">    erro.put(&quot;status&quot;, HttpStatus.CONFLICT.value());</span>
+<span class="nc" id="L73">    erro.put(&quot;mensagem&quot;, &quot;Nao foi possível realizar a operação devido a uma restrição do banco de dados&quot;);</span>
+
+<span class="nc" id="L75">    return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

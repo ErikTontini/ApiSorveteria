@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProdutoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sorveteria</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.sorveteria.controller.produto</a> &gt; <span class="el_source">ProdutoController.java</span></div><h1>ProdutoController.java</h1><pre class="source lang-java linenums">package com.uniamerica.sorveteria.controller.produto;
+
+import com.uniamerica.sorveteria.controller.produto.dto.ProdutoRequest;
+import com.uniamerica.sorveteria.controller.produto.dto.ProdutoResponse;
+import com.uniamerica.sorveteria.entity.Categoria;
+import com.uniamerica.sorveteria.entity.Produto;
+import com.uniamerica.sorveteria.service.ProdutoService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+<span class="fc" id="L16">@Slf4j</span>
+@RestController
+@RequestMapping(&quot;/api/produtos&quot;)
+@RequiredArgsConstructor
+public class ProdutoController {
+
+    private final ProdutoService produtoService;
+
+    @PostMapping
+    public ResponseEntity&lt;ProdutoResponse&gt; cadastrar(@Valid @RequestBody ProdutoRequest request) {
+<span class="nc" id="L26">        Produto salvo = produtoService.salvar(request);</span>
+<span class="nc" id="L27">        log.info(&quot;Produto {} cadastrado com sucesso&quot;, salvo.getId());</span>
+<span class="nc" id="L28">        return ResponseEntity.status(HttpStatus.CREATED).body(ProdutoResponse.fromEntity(salvo));</span>
+    }
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;ProdutoResponse&gt;&gt; listarTodos() {
+<span class="nc" id="L33">        List&lt;ProdutoResponse&gt; lista = produtoService.listar().stream()</span>
+<span class="nc" id="L34">                .map(ProdutoResponse::fromEntity)</span>
+<span class="nc" id="L35">                .toList();</span>
+<span class="nc" id="L36">        return ResponseEntity.ok(lista);</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;ProdutoResponse&gt; buscarPorId(@PathVariable Long id) {
+<span class="nc" id="L41">        Produto produto = produtoService.buscarPorId(id);</span>
+<span class="nc" id="L42">        return ResponseEntity.ok(ProdutoResponse.fromEntity(produto));</span>
+    }
+
+    @GetMapping(&quot;/busca&quot;)
+    public ResponseEntity&lt;List&lt;ProdutoResponse&gt;&gt; buscar(@RequestParam(required = false) Categoria categoria, @RequestParam(required = false) String nome) {
+<span class="nc" id="L47">        List&lt;ProdutoResponse&gt; lista = produtoService.buscar(categoria, nome).stream()</span>
+<span class="nc" id="L48">                .map(ProdutoResponse::fromEntity)</span>
+<span class="nc" id="L49">                .toList();</span>
+<span class="nc" id="L50">        return ResponseEntity.ok(lista);</span>
+    }
+
+    @GetMapping(&quot;/venda&quot;)
+    public ResponseEntity&lt;List&lt;ProdutoResponse&gt;&gt; listarDisponiveis() {
+<span class="nc" id="L55">        List&lt;ProdutoResponse&gt; lista = produtoService.listarDisponiveisParaVenda().stream()</span>
+<span class="nc" id="L56">                .map(ProdutoResponse::fromEntity)</span>
+<span class="nc" id="L57">                .toList();</span>
+<span class="nc" id="L58">        return ResponseEntity.ok(lista);</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;ProdutoResponse&gt; atualizar(@PathVariable Long id, @Valid @RequestBody ProdutoRequest request) {
+<span class="nc" id="L63">        Produto atualizado = produtoService.atualizar(id, request);</span>
+<span class="nc" id="L64">      log.info(&quot;Produto {} atualizado com sucesso&quot;, atualizado.getId());</span>
+<span class="nc" id="L65">        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));</span>
+    }
+
+    @PatchMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;ProdutoResponse&gt; atualizarParcial(@PathVariable Long id, @RequestBody ProdutoRequest request) {
+<span class="nc" id="L70">        Produto atualizado = produtoService.atualizarParcial(id, request);</span>
+<span class="nc" id="L71">        log.info(&quot;Produto {} atualizado com sucesso&quot;, atualizado.getId());</span>
+<span class="nc" id="L72">        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletar(@PathVariable Long id) {
+<span class="nc" id="L77">        produtoService.deletarPorId(id);</span>
+<span class="nc" id="L78">      log.info(&quot;Produto deletado com sucesso&quot;);</span>
+<span class="nc" id="L79">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
