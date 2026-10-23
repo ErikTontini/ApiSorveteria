@@ -26,6 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import com.uniamerica.sorveteria.entity.Cargo;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioServiceTest {
@@ -40,10 +41,15 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
 
 
-    private UsuarioRequest criarRequest() {
-        return new UsuarioRequest("Miguel", "miguel", "123456", null, "85851000");
-    }
-
+  private UsuarioRequest criarRequest() {
+    return new UsuarioRequest(
+      "Miguel",
+      "miguel",
+      "123456",
+      Cargo.FUNCIONARIO,
+      "85851000"
+    );
+  }
     private Usuario criarUsuarioComCep(String cep) {
         Usuario usuario = new Usuario();
         usuario.setNome("Miguel");
@@ -67,8 +73,9 @@ class UsuarioServiceTest {
         Usuario resultado = usuarioService.cadastrar(request);
 
         assertNotNull(resultado);
-        assertEquals("Miguel", resultado.getNome());
-        assertEquals("miguel.login", resultado.getLogin());
+        assertEquals("miguel", resultado.getLogin());
+        assertEquals(Cargo.FUNCIONARIO, resultado.getCargo());
+        assertEquals(true, resultado.getAtivo());
         assertEquals("85851000", resultado.getCep());
         verify(usuarioRepository).save(any(Usuario.class));
     }

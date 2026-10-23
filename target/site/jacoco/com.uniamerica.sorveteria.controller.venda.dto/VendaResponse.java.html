@@ -6,7 +6,7 @@ import com.uniamerica.sorveteria.entity.Venda;
 import java.time.LocalDateTime;
 import java.util.List;
 
-<span class="nc" id="L9">public record VendaResponse(</span>
+<span class="fc" id="L9">public record VendaResponse(</span>
 
         Long id,
         List&lt;ItemVendaResponse&gt; itens,
@@ -18,18 +18,18 @@ import java.util.List;
 
     public static VendaResponse fromEntity(Venda venda) {
 
-<span class="nc" id="L21">        List&lt;ItemVendaResponse&gt; itens =</span>
-<span class="nc" id="L22">                venda.getItens()</span>
-<span class="nc" id="L23">                        .stream()</span>
-<span class="nc" id="L24">                        .map(ItemVendaResponse::fromEntity)</span>
-<span class="nc" id="L25">                        .toList();</span>
+<span class="fc" id="L21">        List&lt;ItemVendaResponse&gt; itens =</span>
+<span class="fc" id="L22">                venda.getItens()</span>
+<span class="fc" id="L23">                        .stream()</span>
+<span class="fc" id="L24">                        .map(ItemVendaResponse::fromEntity)</span>
+<span class="fc" id="L25">                        .toList();</span>
 
-<span class="nc" id="L27">        return new VendaResponse(</span>
-<span class="nc" id="L28">                venda.getId(),</span>
+<span class="fc" id="L27">        return new VendaResponse(</span>
+<span class="fc" id="L28">                venda.getId(),</span>
                 itens,
-<span class="nc" id="L30">                venda.getValorTotal(),</span>
-<span class="nc" id="L31">                venda.getDataHora(),</span>
-<span class="nc" id="L32">                venda.getStatus()</span>
+<span class="fc" id="L30">                venda.getValorTotal(),</span>
+<span class="fc" id="L31">                venda.getDataHora(),</span>
+<span class="fc" id="L32">                venda.getStatus()</span>
         );
     }
 }

@@ -19,42 +19,42 @@ public class UsuarioService {
    private final ViaCepClient viaCepClient;
 
     public Usuario cadastrar(UsuarioRequest request) {
-<span class="nc" id="L22">      log.info(&quot;Inciando Cadastro de usuario&quot;);</span>
+<span class="fc" id="L22">      log.info(&quot;Inciando Cadastro de usuario&quot;);</span>
 
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (usuarioRepository.existsByLogin(request.login())) {</span>
-<span class="nc" id="L25">          log.warn(&quot;Erro ao cadastrar usuario.&quot;);</span>
-<span class="nc" id="L26">            throw new ResponseStatusException(HttpStatus.CONFLICT, &quot;Já existe um usuario com esse login&quot;);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (usuarioRepository.existsByLogin(request.login())) {</span>
+<span class="fc" id="L25">          log.warn(&quot;Erro ao cadastrar usuario.&quot;);</span>
+<span class="fc" id="L26">            throw new ResponseStatusException(HttpStatus.CONFLICT, &quot;Já existe um usuario com esse login&quot;);</span>
         }
 
-<span class="nc" id="L29">        Usuario usuario = new Usuario();</span>
-<span class="nc" id="L30">        usuario.setNome(request.nome());</span>
-<span class="nc" id="L31">        usuario.setLogin(request.login());</span>
-<span class="nc" id="L32">        usuario.setSenha(request.senha());</span>
-<span class="nc" id="L33">        usuario.setCargo(request.cargo());</span>
-<span class="nc" id="L34">        usuario.setCep(request.cep());</span>
-<span class="nc" id="L35">        usuario.setAtivo(true);</span>
+<span class="fc" id="L29">        Usuario usuario = new Usuario();</span>
+<span class="fc" id="L30">        usuario.setNome(request.nome());</span>
+<span class="fc" id="L31">        usuario.setLogin(request.login());</span>
+<span class="fc" id="L32">        usuario.setSenha(request.senha());</span>
+<span class="fc" id="L33">        usuario.setCargo(request.cargo());</span>
+<span class="fc" id="L34">        usuario.setCep(request.cep());</span>
+<span class="fc" id="L35">        usuario.setAtivo(true);</span>
 
-<span class="nc" id="L37">      log.info(&quot;Usuario {} Cadastrado com sucesso&quot;, usuario.getNome());</span>
+<span class="fc" id="L37">      log.info(&quot;Usuario {} Cadastrado com sucesso&quot;, usuario.getNome());</span>
 
-<span class="nc" id="L39">        return usuarioRepository.save(usuario);</span>
+<span class="fc" id="L39">        return usuarioRepository.save(usuario);</span>
     }
 
   public ViaCepResponse buscarEndereco(Long usuarioId) {
 
-<span class="nc" id="L44">    log.info(&quot;Buscando endereço do usuário {}&quot;, usuarioId);</span>
+<span class="fc" id="L44">    log.info(&quot;Buscando endereço do usuário {}&quot;, usuarioId);</span>
 
-<span class="nc" id="L46">    Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -&gt;</span>
-<span class="nc" id="L47">      new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Usuario não encontrado com id &quot; + usuarioId));</span>
+<span class="fc" id="L46">    Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -&gt;</span>
+<span class="fc" id="L47">      new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Usuario não encontrado com id &quot; + usuarioId));</span>
 
-<span class="nc bnc" id="L49" title="All 4 branches missed.">    if (usuario.getCep() == null || usuario.getCep().isBlank()) {</span>
-<span class="nc" id="L50">      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Usuario não possui CEP cadastrado&quot;);</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">    if (usuario.getCep() == null || usuario.getCep().isBlank()) {</span>
+<span class="fc" id="L50">      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Usuario não possui CEP cadastrado&quot;);</span>
     }
 
-<span class="nc" id="L53">    ViaCepResponse endereco = viaCepClient.buscarCep(usuario.getCep());</span>
+<span class="fc" id="L53">    ViaCepResponse endereco = viaCepClient.buscarCep(usuario.getCep());</span>
 
-<span class="nc" id="L55">    log.info(&quot;Endereço encontrado para o usuário {}&quot;, usuarioId);</span>
+<span class="fc" id="L55">    log.info(&quot;Endereço encontrado para o usuário {}&quot;, usuarioId);</span>
 
-<span class="nc" id="L57">    return endereco;</span>
+<span class="fc" id="L57">    return endereco;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
