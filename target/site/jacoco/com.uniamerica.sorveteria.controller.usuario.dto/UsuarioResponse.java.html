@@ -3,7 +3,7 @@
 import com.uniamerica.sorveteria.entity.Cargo;
 import com.uniamerica.sorveteria.entity.Usuario;
 
-<span class="nc" id="L6">public record UsuarioResponse(</span>
+<span class="fc" id="L6">public record UsuarioResponse(</span>
         Long id,
         String nome,
         String login,
@@ -14,13 +14,13 @@ import com.uniamerica.sorveteria.entity.Usuario;
 
     public static UsuarioResponse fromEntity(Usuario usuario) {
 
-<span class="nc" id="L17">        return new UsuarioResponse(</span>
-<span class="nc" id="L18">                usuario.getId(),</span>
-<span class="nc" id="L19">                usuario.getNome(),</span>
-<span class="nc" id="L20">                usuario.getLogin(),</span>
-<span class="nc" id="L21">                usuario.getCargo(),</span>
-<span class="nc" id="L22">                usuario.getAtivo(),</span>
-<span class="nc" id="L23">                usuario.getCep()</span>
+<span class="fc" id="L17">        return new UsuarioResponse(</span>
+<span class="fc" id="L18">                usuario.getId(),</span>
+<span class="fc" id="L19">                usuario.getNome(),</span>
+<span class="fc" id="L20">                usuario.getLogin(),</span>
+<span class="fc" id="L21">                usuario.getCargo(),</span>
+<span class="fc" id="L22">                usuario.getAtivo(),</span>
+<span class="fc" id="L23">                usuario.getCep()</span>
         );
     }
 }

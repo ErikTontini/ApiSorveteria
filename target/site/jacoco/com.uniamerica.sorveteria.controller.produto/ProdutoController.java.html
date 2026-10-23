@@ -23,60 +23,60 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity&lt;ProdutoResponse&gt; cadastrar(@Valid @RequestBody ProdutoRequest request) {
-<span class="nc" id="L26">        Produto salvo = produtoService.salvar(request);</span>
-<span class="nc" id="L27">        log.info(&quot;Produto {} cadastrado com sucesso&quot;, salvo.getId());</span>
-<span class="nc" id="L28">        return ResponseEntity.status(HttpStatus.CREATED).body(ProdutoResponse.fromEntity(salvo));</span>
+<span class="fc" id="L26">        Produto salvo = produtoService.salvar(request);</span>
+<span class="fc" id="L27">        log.info(&quot;Produto {} cadastrado com sucesso&quot;, salvo.getId());</span>
+<span class="fc" id="L28">        return ResponseEntity.status(HttpStatus.CREATED).body(ProdutoResponse.fromEntity(salvo));</span>
     }
 
     @GetMapping
     public ResponseEntity&lt;List&lt;ProdutoResponse&gt;&gt; listarTodos() {
-<span class="nc" id="L33">        List&lt;ProdutoResponse&gt; lista = produtoService.listar().stream()</span>
-<span class="nc" id="L34">                .map(ProdutoResponse::fromEntity)</span>
-<span class="nc" id="L35">                .toList();</span>
-<span class="nc" id="L36">        return ResponseEntity.ok(lista);</span>
+<span class="fc" id="L33">        List&lt;ProdutoResponse&gt; lista = produtoService.listar().stream()</span>
+<span class="fc" id="L34">                .map(ProdutoResponse::fromEntity)</span>
+<span class="fc" id="L35">                .toList();</span>
+<span class="fc" id="L36">        return ResponseEntity.ok(lista);</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;ProdutoResponse&gt; buscarPorId(@PathVariable Long id) {
-<span class="nc" id="L41">        Produto produto = produtoService.buscarPorId(id);</span>
-<span class="nc" id="L42">        return ResponseEntity.ok(ProdutoResponse.fromEntity(produto));</span>
+<span class="fc" id="L41">        Produto produto = produtoService.buscarPorId(id);</span>
+<span class="fc" id="L42">        return ResponseEntity.ok(ProdutoResponse.fromEntity(produto));</span>
     }
 
     @GetMapping(&quot;/busca&quot;)
     public ResponseEntity&lt;List&lt;ProdutoResponse&gt;&gt; buscar(@RequestParam(required = false) Categoria categoria, @RequestParam(required = false) String nome) {
-<span class="nc" id="L47">        List&lt;ProdutoResponse&gt; lista = produtoService.buscar(categoria, nome).stream()</span>
-<span class="nc" id="L48">                .map(ProdutoResponse::fromEntity)</span>
-<span class="nc" id="L49">                .toList();</span>
-<span class="nc" id="L50">        return ResponseEntity.ok(lista);</span>
+<span class="fc" id="L47">        List&lt;ProdutoResponse&gt; lista = produtoService.buscar(categoria, nome).stream()</span>
+<span class="fc" id="L48">                .map(ProdutoResponse::fromEntity)</span>
+<span class="fc" id="L49">                .toList();</span>
+<span class="fc" id="L50">        return ResponseEntity.ok(lista);</span>
     }
 
     @GetMapping(&quot;/venda&quot;)
     public ResponseEntity&lt;List&lt;ProdutoResponse&gt;&gt; listarDisponiveis() {
-<span class="nc" id="L55">        List&lt;ProdutoResponse&gt; lista = produtoService.listarDisponiveisParaVenda().stream()</span>
-<span class="nc" id="L56">                .map(ProdutoResponse::fromEntity)</span>
-<span class="nc" id="L57">                .toList();</span>
-<span class="nc" id="L58">        return ResponseEntity.ok(lista);</span>
+<span class="fc" id="L55">        List&lt;ProdutoResponse&gt; lista = produtoService.listarDisponiveisParaVenda().stream()</span>
+<span class="fc" id="L56">                .map(ProdutoResponse::fromEntity)</span>
+<span class="fc" id="L57">                .toList();</span>
+<span class="fc" id="L58">        return ResponseEntity.ok(lista);</span>
     }
 
     @PutMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;ProdutoResponse&gt; atualizar(@PathVariable Long id, @Valid @RequestBody ProdutoRequest request) {
-<span class="nc" id="L63">        Produto atualizado = produtoService.atualizar(id, request);</span>
-<span class="nc" id="L64">      log.info(&quot;Produto {} atualizado com sucesso&quot;, atualizado.getId());</span>
-<span class="nc" id="L65">        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));</span>
+<span class="fc" id="L63">        Produto atualizado = produtoService.atualizar(id, request);</span>
+<span class="fc" id="L64">      log.info(&quot;Produto {} atualizado com sucesso&quot;, atualizado.getId());</span>
+<span class="fc" id="L65">        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));</span>
     }
 
     @PatchMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;ProdutoResponse&gt; atualizarParcial(@PathVariable Long id, @RequestBody ProdutoRequest request) {
-<span class="nc" id="L70">        Produto atualizado = produtoService.atualizarParcial(id, request);</span>
-<span class="nc" id="L71">        log.info(&quot;Produto {} atualizado com sucesso&quot;, atualizado.getId());</span>
-<span class="nc" id="L72">        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));</span>
+<span class="fc" id="L70">        Produto atualizado = produtoService.atualizarParcial(id, request);</span>
+<span class="fc" id="L71">        log.info(&quot;Produto {} atualizado com sucesso&quot;, atualizado.getId());</span>
+<span class="fc" id="L72">        return ResponseEntity.ok(ProdutoResponse.fromEntity(atualizado));</span>
     }
 
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Void&gt; deletar(@PathVariable Long id) {
-<span class="nc" id="L77">        produtoService.deletarPorId(id);</span>
-<span class="nc" id="L78">      log.info(&quot;Produto deletado com sucesso&quot;);</span>
-<span class="nc" id="L79">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L77">        produtoService.deletarPorId(id);</span>
+<span class="fc" id="L78">      log.info(&quot;Produto deletado com sucesso&quot;);</span>
+<span class="fc" id="L79">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

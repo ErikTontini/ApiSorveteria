@@ -24,43 +24,43 @@ public class VendaController {
 
     @PostMapping
     public ResponseEntity&lt;VendaResponse&gt; registrar(@Valid @RequestBody VendaRequest request) {
-<span class="nc" id="L27">        Venda salva = vendaService.registrar(request);</span>
-<span class="nc" id="L28">        log.info(&quot;Venda {} realiada com sucesso&quot;, salva.getId());</span>
-<span class="nc" id="L29">        return ResponseEntity.status(HttpStatus.CREATED).body(VendaResponse.fromEntity(salva));</span>
+<span class="fc" id="L27">        Venda salva = vendaService.registrar(request);</span>
+<span class="fc" id="L28">        log.info(&quot;Venda {} realiada com sucesso&quot;, salva.getId());</span>
+<span class="fc" id="L29">        return ResponseEntity.status(HttpStatus.CREATED).body(VendaResponse.fromEntity(salva));</span>
     }
 
     @GetMapping
     public ResponseEntity&lt;List&lt;VendaResponse&gt;&gt; listarTodas() {
-<span class="nc" id="L34">        List&lt;VendaResponse&gt; lista = vendaService.listar().stream()</span>
-<span class="nc" id="L35">                .map(VendaResponse::fromEntity)</span>
-<span class="nc" id="L36">                .toList();</span>
-<span class="nc" id="L37">        return ResponseEntity.ok(lista);</span>
+<span class="fc" id="L34">        List&lt;VendaResponse&gt; lista = vendaService.listar().stream()</span>
+<span class="fc" id="L35">                .map(VendaResponse::fromEntity)</span>
+<span class="fc" id="L36">                .toList();</span>
+<span class="fc" id="L37">        return ResponseEntity.ok(lista);</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;VendaResponse&gt; buscarPorId(@PathVariable Long id) {
-<span class="nc" id="L42">        Venda venda = vendaService.buscarPorId(id);</span>
-<span class="nc" id="L43">        return ResponseEntity.ok(VendaResponse.fromEntity(venda));</span>
+<span class="fc" id="L42">        Venda venda = vendaService.buscarPorId(id);</span>
+<span class="fc" id="L43">        return ResponseEntity.ok(VendaResponse.fromEntity(venda));</span>
     }
 
     @GetMapping(&quot;/busca&quot;)
     public ResponseEntity&lt;List&lt;VendaResponse&gt;&gt; buscar(@RequestParam(required = false) Long produtoId, @RequestParam(required = false) StatusVenda status) {
-<span class="nc" id="L48">        List&lt;VendaResponse&gt; lista = vendaService.buscar(produtoId, status).stream()</span>
-<span class="nc" id="L49">                .map(VendaResponse::fromEntity)</span>
-<span class="nc" id="L50">                .toList();</span>
-<span class="nc" id="L51">        return ResponseEntity.ok(lista);</span>
+<span class="fc" id="L48">        List&lt;VendaResponse&gt; lista = vendaService.buscar(produtoId, status).stream()</span>
+<span class="fc" id="L49">                .map(VendaResponse::fromEntity)</span>
+<span class="fc" id="L50">                .toList();</span>
+<span class="fc" id="L51">        return ResponseEntity.ok(lista);</span>
     }
 
     @PatchMapping(&quot;/{id}/cancelar&quot;)
     public ResponseEntity&lt;VendaResponse&gt; cancelar(@PathVariable Long id) {
-<span class="nc" id="L56">        Venda venda = vendaService.cancelar(id);</span>
-<span class="nc" id="L57">        return ResponseEntity.ok(VendaResponse.fromEntity(venda));</span>
+<span class="fc" id="L56">        Venda venda = vendaService.cancelar(id);</span>
+<span class="fc" id="L57">        return ResponseEntity.ok(VendaResponse.fromEntity(venda));</span>
     }
 
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Void&gt; deletar(@PathVariable Long id) {
-<span class="nc" id="L62">        vendaService.deletarPorId(id);</span>
-<span class="nc" id="L63">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L62">        vendaService.deletarPorId(id);</span>
+<span class="fc" id="L63">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -3,7 +3,7 @@
 import com.uniamerica.sorveteria.entity.Categoria;
 import com.uniamerica.sorveteria.entity.Produto;
 
-<span class="nc" id="L6">public record ProdutoResponse(</span>
+<span class="fc" id="L6">public record ProdutoResponse(</span>
         Long id,
         String nome,
         Categoria categoria,
@@ -12,13 +12,13 @@ import com.uniamerica.sorveteria.entity.Produto;
         Boolean disponivel
 ) {
     public static ProdutoResponse fromEntity(Produto p) {
-<span class="nc" id="L15">        return new ProdutoResponse(</span>
-<span class="nc" id="L16">                p.getId(),</span>
-<span class="nc" id="L17">                p.getNome(),</span>
-<span class="nc" id="L18">                p.getCategoria(),</span>
-<span class="nc" id="L19">                p.getPreco(),</span>
-<span class="nc" id="L20">                p.getEstoque(),</span>
-<span class="nc" id="L21">                p.getDisponivel()</span>
+<span class="fc" id="L15">        return new ProdutoResponse(</span>
+<span class="fc" id="L16">                p.getId(),</span>
+<span class="fc" id="L17">                p.getNome(),</span>
+<span class="fc" id="L18">                p.getCategoria(),</span>
+<span class="fc" id="L19">                p.getPreco(),</span>
+<span class="fc" id="L20">                p.getEstoque(),</span>
+<span class="fc" id="L21">                p.getDisponivel()</span>
         );
     }
 }
